@@ -1,16 +1,25 @@
-const deviceId = 9
+const defaultDeviceId = 9
 const apiUri =
   "https://home.fibaro.com/newProxyLite?user=<user>&hc=<hc>&temp=<temp>&req=<actionUri>"
 const actionUri = "/api/devices/:deviceId/action/:action"
 
-async function setBlindsLevel({ accessToken, temp, hc, user }, level) {
+async function setBlindsLevel(
+  { accessToken, temp, hc, user },
+  level,
+  deviceId
+) {
   const uri = apiUri
     .replace("<user>", user)
     .replace("<hc>", hc)
     .replace("<temp>", temp)
     .replace(
       "<actionUri>",
-      actionUri.replace(":deviceId", deviceId).replace(":action", "setValue2")
+      actionUri
+        .replace(
+          ":deviceId",
+          deviceId === undefined ? defaultDeviceId : deviceId
+        )
+        .replace(":action", "setValue2")
     )
 
   await fetch(uri, {
@@ -23,14 +32,23 @@ async function setBlindsLevel({ accessToken, temp, hc, user }, level) {
   })
 }
 
-async function setBlindsPosition({ accessToken, temp, hc, user }, position) {
+async function setBlindsPosition(
+  { accessToken, temp, hc, user },
+  position,
+  deviceId
+) {
   const uri = apiUri
     .replace("<user>", user)
     .replace("<hc>", hc)
     .replace("<temp>", temp)
     .replace(
       "<actionUri>",
-      actionUri.replace(":deviceId", deviceId).replace(":action", "setValue")
+      actionUri
+        .replace(
+          ":deviceId",
+          deviceId === undefined ? defaultDeviceId : deviceId
+        )
+        .replace(":action", "setValue")
     )
 
   await fetch(uri, {

@@ -15,11 +15,11 @@ app.get("/blinds-level", async (req, res) => {
 
   switch (action) {
     case "open":
-      await setBlindsLevel(session, 100)
+      await setBlindsLevel(session, 100, req.query.deviceId)
       res.send("Blinds level set to 100%")
       break
     case "close":
-      await setBlindsLevel(session, 0)
+      await setBlindsLevel(session, 0, req.query.deviceId)
       res.send("Blinds level set to 0%")
       break
     case "custom":
@@ -29,7 +29,7 @@ app.get("/blinds-level", async (req, res) => {
       if (level > 100) level = 100
       if (level < 0) level = 0
 
-      await setBlindsLevel(session, level)
+      await setBlindsLevel(session, level, req.query.deviceId)
       res.send(`Blinds level set to ${level}%`)
       break
     default:
@@ -45,11 +45,11 @@ app.get("/blinds-position", async (req, res) => {
 
   switch (action) {
     case "up":
-      await setBlindsPosition(session, 100)
+      await setBlindsPosition(session, 100, req.query.deviceId)
       res.send("Blinds position set to 100%")
       break
     case "down":
-      await setBlindsPosition(session, 0)
+      await setBlindsPosition(session, 0, req.query.deviceId)
       res.send("Blinds position set to 0%")
       break
     case "custom":
@@ -59,7 +59,7 @@ app.get("/blinds-position", async (req, res) => {
       if (position > 100) position = 100
       if (position < 0) position = 0
 
-      await setBlindsPosition(session, position)
+      await setBlindsPosition(session, position, req.query.deviceId)
       res.send(`Blinds position set to ${position}%`)
       break
     default:
