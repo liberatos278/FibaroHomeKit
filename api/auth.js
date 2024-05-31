@@ -91,6 +91,15 @@ async function login() {
   }
 }
 
+function isSecure(req) {
+  const code = req.query.code
+
+  if (!code || code !== process.env.SECURITY_CODE) return false
+
+  return true
+}
+
 module.exports = {
   login,
+  isSecure,
 }

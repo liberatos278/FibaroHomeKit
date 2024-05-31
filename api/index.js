@@ -2,11 +2,13 @@ const express = require("express")
 const app = express()
 
 const { closeGateway } = require("./gateway")
-const { login } = require("./auth")
+const { login, isSecure } = require("./auth")
 
 require("dotenv").config({ path: __dirname + "/../.env" })
 
 app.get("/gateway", async (req, res) => {
+  if (!isSecure(req)) return res.status(401).send("Unauthorized")
+
   const session = await login()
   const action = req.query.action ?? "close"
 
