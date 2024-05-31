@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 
 const { setBlindsLevel, setBlindsPosition } = require("./blinds")
+const { callGate } = require("./gate")
 const { login, isSecure } = require("./auth")
 
 require("dotenv").config({ path: __dirname + "/../.env" })
@@ -64,6 +65,15 @@ app.get("/blinds-position", async (req, res) => {
     default:
       res.status(400).send("Invalid action")
   }
+})
+
+app.get("/gate", async (req, res) => {
+  if (!isSecure(req)) return res.status(401).send("Unauthorized")
+
+  const session = await login()
+
+  await callGate(session)
+  res.send(`Gate called successfully`)
 })
 
 app.listen(3000, () => console.log("Server ready on port 3000"))
