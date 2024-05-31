@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
 
-const { setSlats } = require("./blinds")
+const { setBlindsLevel, setBlindsPosition } = require("./blinds")
 const { login, isSecure } = require("./auth")
 
 require("dotenv").config({ path: __dirname + "/../.env" })
@@ -14,11 +14,11 @@ app.get("/blinds-level", async (req, res) => {
 
   switch (action) {
     case "open":
-      await setSlats(session, 100)
+      await setBlindsLevel(session, 100)
       res.send("Blinds level set to 100%")
       break
     case "close":
-      await setSlats(session, 0)
+      await setBlindsLevel(session, 0)
       res.send("Blinds level set to 0%")
       break
     case "custom":
@@ -29,8 +29,39 @@ app.get("/blinds-level", async (req, res) => {
       if (level > 100) level = 100
       if (level < 0) level = 0
 
-      await setSlats(session, level)
+      await setBlindsLevel(session, level)
       res.send(`Blinds level set to ${level}%`)
+      break
+    default:
+      res.status(400).send("Invalid action")
+  }
+})
+
+app.get("/blinds-position", async (req, res) => {
+  if (!isSecure(req)) return res.status(401).send("Unauthorized")
+
+  const session = await login()
+  const action = req.query.action ?? "up"
+
+  switch (action) {
+    case "up":
+      await setBlindsPosition(session, 100)
+      res.send("Blinds position set to 100%")
+      break
+    case "down":
+      await setBlindsPosition(session, 0)
+      res.send("Blinds position set to 0%")
+      break
+    case "custom":
+      let position = Number(req.query.position)
+
+      if (!position || isNaN(position))
+        return res.status(400).send("Position is required")
+      if (position > 100) position = 100
+      if (position < 0) position = 0
+
+      await setBlindsPosition(session, position)
+      res.send(`Blinds position set to ${position}%`)
       break
     default:
       res.status(400).send("Invalid action")
