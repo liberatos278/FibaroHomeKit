@@ -22,15 +22,15 @@ app.get("/blinds-level", async (req, res) => {
       res.send("Blinds level set to 0%")
       break
     case "custom":
-      let position = Number(req.query.position)
+      let level = Number(req.query.level)
 
-      if (!position || isNaN(position))
-        return res.status(400).send("Position is required")
-      if (position > 100) position = 100
-      if (position < 0) position = 0
+      if (!level || isNaN(level))
+        return res.status(400).send("Level is required")
+      if (level > 100) level = 100
+      if (level < 0) level = 0
 
-      await setSlats(session, position)
-      res.send(`Blinds level set to ${position}%`)
+      await setSlats(session, level)
+      res.send(`Blinds level set to ${level}%`)
       break
     default:
       res.status(400).send("Invalid action")
