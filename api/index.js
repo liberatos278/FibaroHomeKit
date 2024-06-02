@@ -15,22 +15,22 @@ app.get("/blinds-level", async (req, res) => {
 
   switch (action) {
     case "open":
-      await setBlindsLevel(session, 100, req.query.deviceId)
+      await setBlindsLevel(session, 99, req.query.deviceId)
       res.send("Blinds level set to 100%")
       break
     case "close":
       await setBlindsLevel(session, 0, req.query.deviceId)
-      res.send("Blinds level set to 0%")
+      res.send("Blinds level set to 1%")
       break
     case "custom":
       let level = Number(req.query.level)
 
       if (isNaN(level)) return res.status(400).send("Level is required")
-      if (level > 100) level = 100
+      if (level > 99) level = 99
       if (level < 0) level = 0
 
       await setBlindsLevel(session, level, req.query.deviceId)
-      res.send(`Blinds level set to ${level}%`)
+      res.send(`Blinds level set to ${level + 1}%`)
       break
     default:
       res.status(400).send("Invalid action")
@@ -45,22 +45,22 @@ app.get("/blinds-position", async (req, res) => {
 
   switch (action) {
     case "up":
-      await setBlindsPosition(session, 100, req.query.deviceId)
+      await setBlindsPosition(session, 99, req.query.deviceId)
       res.send("Blinds position set to 100%")
       break
     case "down":
       await setBlindsPosition(session, 0, req.query.deviceId)
-      res.send("Blinds position set to 0%")
+      res.send("Blinds position set to 1%")
       break
     case "custom":
       let position = Number(req.query.position)
 
       if (isNaN(position)) return res.status(400).send("Position is required")
-      if (position > 100) position = 100
+      if (position > 99) position = 99
       if (position < 0) position = 0
 
       await setBlindsPosition(session, position, req.query.deviceId)
-      res.send(`Blinds position set to ${position}%`)
+      res.send(`Blinds position set to ${position + 1}%`)
       break
     default:
       res.status(400).send("Invalid action")
