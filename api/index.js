@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 
 const { setBlindsLevel, setBlindsPosition } = require("./blinds")
+const { setPoolLight } = require("./lights")
 const { callGate } = require("./gate")
 const { login, isSecure } = require("./auth")
 

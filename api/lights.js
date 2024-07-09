@@ -21,3 +21,5 @@ async function setPoolLigth({ accessToken, temp, hc, user }, action) {
     },
   })
 }
+
+module.exports = { setPoolLigth }
