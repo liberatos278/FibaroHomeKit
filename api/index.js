@@ -71,15 +71,15 @@ app.get("/pool-light", async (req, res) => {
   if (!isSecure(req)) return res.status(401).send("Unauthorized")
 
   const session = await login()
-  const action = req.query.action ?? "on"
+  const action = req.query.action ?? "turnOn"
 
   switch (action) {
-    case "on":
-      await setPoolLight(session, true)
+    case "turnOn":
+      await setPoolLight(session, action)
       res.send("Pool light turned on")
       break
-    case "off":
-      await setPoolLight(session, false)
+    case "turnOff":
+      await setPoolLight(session, action)
       res.send("Pool light turned off")
       break
     default:

@@ -3,16 +3,14 @@ const apiUri =
   "https://home.fibaro.com/newProxyLite?user=<user>&hc=<hc>&temp=<temp>&req=<actionUri>"
 const actionUri = "/api/devices/:deviceId/action/:action"
 
-async function setPoolLigth({ accessToken, temp, hc, user }, isOn) {
+async function setPoolLigth({ accessToken, temp, hc, user }, action) {
   const uri = apiUri
     .replace("<user>", user)
     .replace("<hc>", hc)
     .replace("<temp>", temp)
     .replace(
       "<actionUri>",
-      actionUri
-        .replace(":deviceId", deviceId)
-        .replace(":action", isOn ? "turnOn" : "turnOff")
+      actionUri.replace(":deviceId", deviceId).replace(":action", action)
     )
 
   await fetch(uri, {
