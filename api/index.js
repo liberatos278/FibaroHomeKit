@@ -67,7 +67,7 @@ app.get("/blinds-position", async (req, res) => {
   }
 })
 
-app.get("/poolLight", async (req, res) => {
+app.get("/pool-light", async (req, res) => {
   if (!isSecure(req)) return res.status(401).send("Unauthorized")
 
   const session = await login()
