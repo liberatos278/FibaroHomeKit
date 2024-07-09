@@ -67,6 +67,26 @@ app.get("/blinds-position", async (req, res) => {
   }
 })
 
+app.get("/poolLight", async (req, res) => {
+  if (!isSecure(req)) return res.status(401).send("Unauthorized")
+
+  const session = await login()
+  const action = req.query.action ?? "on"
+
+  switch (action) {
+    case "on":
+      await setPoolLight(session, true)
+      res.send("Pool light turned on")
+      break
+    case "off":
+      await setPoolLight(session, false)
+      res.send("Pool light turned off")
+      break
+    default:
+      res.status(400).send("Invalid action")
+  }
+})
+
 app.get("/gate", async (req, res) => {
   if (!isSecure(req)) return res.status(401).send("Unauthorized")
 
