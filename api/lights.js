@@ -3,7 +3,7 @@ const apiUri =
   "https://home.fibaro.com/newProxyLite?user=<user>&hc=<hc>&temp=<temp>&req=<actionUri>"
 const actionUri = "/api/devices/:deviceId/action/:action"
 
-async function setPoolLigth({ accessToken, temp, hc, user }, action) {
+async function setPoolLight({ accessToken, temp, hc, user }, action) {
   const uri = apiUri
     .replace("<user>", user)
     .replace("<hc>", hc)
@@ -22,4 +22,4 @@ async function setPoolLigth({ accessToken, temp, hc, user }, action) {
   })
 }
 
-module.exports = { setPoolLigth }
+module.exports = { setPoolLight }
