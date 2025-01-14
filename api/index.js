@@ -5,6 +5,7 @@ const {
   setBlindsLevel,
   setBlindsPosition,
   getBlindsLevel,
+  getBlindsPosition,
 } = require("./blinds")
 const { setPoolLight } = require("./lights")
 const { callGate } = require("./gate")
@@ -48,6 +49,14 @@ app.get("/blinds-level-get", async (req, res) => {
   const session = await login()
   const level = await getBlindsLevel(session, req.query.deviceId)
   res.json({ level })
+})
+
+app.get("/blinds-position-get", async (req, res) => {
+  if (!isSecure(req)) return res.status(401).send("Unauthorized")
+
+  const session = await login()
+  const position = await getBlindsPosition(session, req.query.deviceId)
+  res.json({ position })
 })
 
 app.get("/blinds-position", async (req, res) => {

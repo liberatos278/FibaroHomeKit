@@ -82,8 +82,28 @@ async function setBlindsPosition(
   })
 }
 
+async function getBlindsPosition({ accessToken, temp, hc, user }, deviceId) {
+  const uri = apiUri
+    .replace("<user>", user)
+    .replace("<hc>", hc)
+    .replace("<temp>", temp)
+    .replace("<actionUri>", `/api/interface/data`)
+
+  const res = await fetch(uri, {
+    method: "GET",
+    headers: {
+      "X-Fibaro-Auth": `RA-Access-Token ${accessToken}`,
+    },
+  })
+  const data = await res.json()
+  const device = data.devices.find((device) => device.id === Number(deviceId))
+
+  return device.properties.value2 == 0 ? 0 : Number(device.properties.value) + 1
+}
+
 module.exports = {
   setBlindsLevel,
   getBlindsLevel,
   setBlindsPosition,
+  getBlindsPosition,
 }
