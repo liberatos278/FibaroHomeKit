@@ -1,7 +1,11 @@
 const express = require("express")
 const app = express()
 
-const { setBlindsLevel, setBlindsPosition } = require("./blinds")
+const {
+  setBlindsLevel,
+  setBlindsPosition,
+  getBlindsLevel,
+} = require("./blinds")
 const { setPoolLight } = require("./lights")
 const { callGate } = require("./gate")
 const { login, isSecure } = require("./auth")
@@ -36,6 +40,14 @@ app.get("/blinds-level", async (req, res) => {
     default:
       res.status(400).send("Invalid action")
   }
+})
+
+app.get("/blinds-level-get", async (req, res) => {
+  if (!isSecure(req)) return res.status(401).send("Unauthorized")
+
+  const session = await login()
+  const level = await getBlindsLevel(session, req.query.deviceId)
+  res.json({ level })
 })
 
 app.get("/blinds-position", async (req, res) => {
