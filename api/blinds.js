@@ -48,7 +48,9 @@ async function getBlindsLevel({ accessToken, temp, hc, user }, deviceId) {
   const data = await res.json()
   const device = data.devices.find((device) => device.id === Number(deviceId))
 
-  return device.properties.value2 + 1
+  return device.properties.value2 === 0
+    ? 0
+    : Number(device.properties.value2) + 1
 }
 
 async function setBlindsPosition(
